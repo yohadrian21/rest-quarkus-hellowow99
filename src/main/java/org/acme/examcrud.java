@@ -52,10 +52,12 @@ public class examcrud {
                         if(gt.getIdtag()==t.getIdtag())
                         {
                             t.setLabel(gt.getLabel());
+                           
                         }
                     }
                 }
                }
+               break;
             }
             
             else{
@@ -239,6 +241,30 @@ public class examcrud {
         }
     }
 
+    @GET    
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/post/del")
+    public Response delPostAll()
+    { try
+        {
+            int res=0;
+            gpost.clear();
+           
+            for(org.acme.Model.tag p : gtag)
+            {
+               p.post.clear();
+            }
+      
+             return Response.ok("Data Deleted").build();
+            
+    
+        }
+        catch(Exception ex)
+        {
+            return Response.ok(ex.getMessage()).build();
+
+        }
+    }
 
     //#endregion
     
@@ -268,10 +294,12 @@ public class examcrud {
                         {
                             t.setContent(gt.getContent());
                             t.setTitle(gt.getTitle());
+                            
                         }
                     }
                 }
                }
+               break;
             }
             else{
                 Temp = null;
@@ -455,6 +483,31 @@ public class examcrud {
             {
                 throw new Exception("Data not found");
             }
+             return Response.ok("Data Deleted").build();
+            
+    
+        }
+        catch(Exception ex)
+        {
+            return Response.ok(ex.getMessage()).build();
+
+        }
+    }
+    @GET    
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/tag/del")
+    public Response delTagall(
+        @PathParam("id") String idTag
+    )
+    { try
+        {
+            int res=0;
+            gtag.clear();
+            for(org.acme.Model.post p : gpost)
+            {
+                p.tag.clear();
+            }
+    
              return Response.ok("Data Deleted").build();
             
     
