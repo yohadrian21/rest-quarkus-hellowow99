@@ -37,8 +37,33 @@ public class examcrud {
         @PathParam("id") int idPost
     )
     {
-        List<String> res = new ArrayList<>();
-        return Response.ok(res).build();
+        org.acme.Model.post Temp = new org.acme.Model.post();
+        for(org.acme.Model.post p : gpost)
+        {
+            if(p.getIdpost()==idPost)
+            {
+                Temp =p;
+               if(p.tag.size()>0)
+               {
+                for(org.acme.Model.tag t : Temp.tag)
+                {
+                    for(org.acme.Model.tag gt : gtag)
+                    {
+                        if(gt.getIdtag()==t.getIdtag())
+                        {
+                            t.setLabel(gt.getLabel());
+                        }
+                    }
+                }
+               }
+            }
+            
+            else{
+                Temp = null;
+            } 
+        }
+
+        return Response.ok(Temp).build();
     }
     @GET    
     @Produces(MediaType.APPLICATION_JSON)
@@ -221,14 +246,38 @@ public class examcrud {
     
     //READ TAG
     @GET    
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/tag/{id}")
-    public Response getTag(
-        @PathParam("id") String idTag
+    public Response getTagbyId(
+        @PathParam("id") int idTag
     )
     {
-        List<String> res = new ArrayList<>();
-         return Response.ok(gtag).build();
+        org.acme.Model.tag Temp = new org.acme.Model.tag();
+        for(org.acme.Model.tag p : gtag)
+        {
+            if(p.getIdtag()==idTag)
+            {
+                Temp =p;
+               if(p.post.size()>0)
+               {
+                for(org.acme.Model.post t : Temp.post)
+                {
+                    for(org.acme.Model.post gt : gpost)
+                    {
+                        if(gt.getIdpost()==t.getIdpost())
+                        {
+                            t.setContent(gt.getContent());
+                            t.setTitle(gt.getTitle());
+                        }
+                    }
+                }
+               }
+            }
+            else{
+                Temp = null;
+            } 
+        }
+        return Response.ok(Temp).build();
     }
     @GET    
     @Produces(MediaType.APPLICATION_JSON)
